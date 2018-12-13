@@ -379,7 +379,7 @@ func (rr *dnsRR_TTL) Header() *dnsRR_Header {
 	return &rr.Hdr
 }
 
-func (rr *dnsRR_TTL) Walk(f func(v interface{}, name, tag string) bool) bool {
+func (rr *dnsRR_TTL) bool {
 	return rr.Hdr.Walk(f) && f(&h.Ttl, "Ttl")
 }
 
