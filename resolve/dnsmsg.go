@@ -370,6 +370,19 @@ func (rr *dnsRR_A) Walk(f func(v interface{}, name, tag string) bool) bool {
 	return rr.Hdr.Walk(f) && f(&rr.A, "A", "ipv4")
 }
 
+type dnsRR_TTL struct {
+	Hdr dnsRR_Header
+	Ttl   uint32
+}
+
+func (rr *dnsRR_TTL) Header() *dnsRR_Header {
+	return &rr.Hdr
+}
+
+func (rr *dnsRR_TTL) Walk(f func(v interface{}, name, tag string) bool) bool {
+	return rr.Hdr.Walk(f) && f(&rr.TTL, "Ttl")
+}
+
 type dnsRR_AAAA struct {
 	Hdr  dnsRR_Header
 	AAAA [16]byte `net:"ipv6"`
@@ -921,6 +934,15 @@ func convertRR_A(records []dnsRR) []net.IP {
 		addrs[i] = net.IPv4(byte(a>>24), byte(a>>16), byte(a>>8), byte(a))
 	}
 	return addrs
+}
+
+func convertRR_TTL(records []dnsRR) []net.IP {
+	addrs := make([]net.IP, len(records))
+	for i, rr := range records {
+		a := rr.(*dnsRR_TTL).Ttl
+		addrs[i] = net.IPv4(byte(a>>24), byte(a>>16), byte(a>>8), byte(a))
+	}
+	return a
 }
 
 func convertRR_AAAA(records []dnsRR) []net.IP {
