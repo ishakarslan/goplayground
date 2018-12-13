@@ -379,9 +379,6 @@ func (rr *dnsRR_TTL) Header() *dnsRR_Header {
 	return &rr.Hdr
 }
 
-func (rr *dnsRR_TTL) bool {
-	return rr.Hdr.Walk(f) && f(&h.Ttl, "Ttl")
-}
 
 type dnsRR_AAAA struct {
 	Hdr  dnsRR_Header
