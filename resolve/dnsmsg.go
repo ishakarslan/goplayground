@@ -381,6 +381,7 @@ func (rr *dnsRR_TTL) Header() *dnsRR_Header {
 
 func (rr *dnsRR_TTL) Walk(f func(v interface{}, name, tag string) bool) bool {
 	return rr.Hdr.Walk(f) && f(&h.Ttl, "Ttl", "")
+}
 
 type dnsRR_AAAA struct {
 	Hdr  dnsRR_Header
